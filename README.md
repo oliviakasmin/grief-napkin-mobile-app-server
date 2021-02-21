@@ -1,0 +1,1 @@
+graphQL link: http://localhost:3001/griefNapkin

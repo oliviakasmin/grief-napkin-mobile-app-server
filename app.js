@@ -6,12 +6,16 @@ let cors = require('cors')
 const { GraphQLSchema } = require('graphql')
 const RootQuery = require('./server/graphQL')
 let mongoose = require('mongoose')
-const URI = require('./config')
+const URI = require('./config.env')
 
 app.use(cors())
 
 // Connect to mongodb database
 mongoose.connect(process.env.MONGODB_URI || URI)
+
+if (process.env.NODE_ENV === 'production') {
+  mongoose.connect(process.env.MONGODB_URI || URI)
+}
 
 mongoose
   .connect(process.env.MONGODB_URI || URI, {
