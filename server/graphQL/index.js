@@ -1,13 +1,13 @@
 const { ApolloServer } = require('apollo-server')
 const typeDefs = require('./types')
 const resolvers = require('./resolvers')
-const { APOLLO_KEY } = require('../../secrets')
+// const { APOLLO_KEY } = require('../../secrets')
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   engine: {
-    apiKey: APOLLO_KEY,
+    apiKey: 'service:grief-napkin-mobile-app-hsj03v:4pbIxhb-oTdXQM5G-E5mGA',
   },
   introspection: true,
   // comment this in when deploying
