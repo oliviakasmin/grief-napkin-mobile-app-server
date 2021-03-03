@@ -1,5 +1,28 @@
 const { GraphQLString, GraphQLList, GraphQLObjectType } = require('graphql')
-const UserModel = require('../models')
+const UserModel = require('../db/models')
+const { ApolloServer, gql } = require('apollo-server')
+
+const typeDefs = gql`
+  type User {
+    name: String
+    username: String
+    password: String
+  }
+  type Query {
+    users: [User]
+  }
+`
+
+const resolvers = {
+  Query: {
+    users: async () => {
+      const data = await UserModel.find({})
+      return data
+    },
+  },
+}
+
+const server = new ApolloServer({ typeDefs, resolvers })
 
 const UserType = new GraphQLObjectType({
   name: 'user',
@@ -23,4 +46,4 @@ const RootQuery = new GraphQLObjectType({
   },
 })
 
-module.exports = RootQuery
+module.exports = { RootQuery, server }

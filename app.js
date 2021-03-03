@@ -4,21 +4,26 @@ const PORT = process.env.PORT || 3001
 const { graphqlHTTP } = require('express-graphql')
 let cors = require('cors')
 const { GraphQLSchema } = require('graphql')
-const RootQuery = require('./server/graphQL')
+const { RootQuery, server } = require('./server/graphQL')
 let mongoose = require('mongoose')
-const URL = require('./.env')
+const URI = require('./.env')
 
 app.use(cors())
 
 // Connect to mongodb database
-mongoose.connect(process.env.MONGODB_URL || URL)
 
 if (process.env.NODE_ENV === 'production') {
-  mongoose.connect(process.env.MONGODB_URL || URL)
+  mongoose
+    .connect(process.env.MONGODB_URI || URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    })
+    .catch(error => console.log(error))
 }
 
 mongoose
-  .connect(process.env.MONGODB_URL || URL, {
+  .connect(process.env.MONGODB_URI || URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -40,15 +45,21 @@ mongoose.connection.on('disconnected', () => {
 })
 
 // Connect to GraphQL
-const schema = new GraphQLSchema({
-  query: RootQuery,
+// const schema = new GraphQLSchema({
+//   query: RootQuery,
+// })
+
+// app.use('/griefNapkin', graphqlHTTP({ schema, graphiql: true }))
+
+// // Listen on Port
+// app.listen(PORT, () => {
+//   console.log(`GraphQL data served on port ${PORT}.`)
+// })
+
+const graphQLServer = server
+
+graphQLServer.listen({ port: process.env.PORT || 3001 }).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}graphql`)
 })
 
-app.use('/griefNapkin', graphqlHTTP({ schema, graphiql: true }))
-
-// Listen on Port
-app.listen(PORT, () => {
-  console.log(`GraphQL data served on port ${PORT}.`)
-})
-
-module.exports = app
+// module.exports = app
