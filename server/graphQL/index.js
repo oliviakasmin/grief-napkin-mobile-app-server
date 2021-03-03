@@ -11,9 +11,9 @@ const server = new ApolloServer({
   },
   introspection: true,
   // comment this in when deploying
-  playground: {
-    endpoint: 'https://grief-napkin-mobile.herokuapp.com/',
-  },
+  // playground: {
+  //   endpoint: 'https://grief-napkin-mobile.herokuapp.com/',
+  // },
 })
 
 module.exports = { server }
