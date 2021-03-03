@@ -38,6 +38,6 @@ mongoose.connection.on('disconnected', () => {
 
 // listen to Apollo server on localhost
 
-server.listen({ port: process.env.PORT || 3001 }).then(({ url }) => {
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}graphql`)
 })
