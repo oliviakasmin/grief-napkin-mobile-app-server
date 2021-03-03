@@ -1,29 +1,21 @@
-const express = require('express')
-const app = express()
-const PORT = process.env.PORT || 3001
-const { graphqlHTTP } = require('express-graphql')
-let cors = require('cors')
-const { GraphQLSchema } = require('graphql')
-const { RootQuery, server } = require('./server/graphQL')
+const { server } = require('./server/graphQL')
 let mongoose = require('mongoose')
-const URI = require('./.env')
-
-app.use(cors())
+const { MONGODB_URI } = require('./.env')
 
 // Connect to mongodb database
 
-if (process.env.NODE_ENV === 'production') {
-  mongoose
-    .connect(process.env.MONGODB_URI || URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    })
-    .catch(error => console.log(error))
-}
+// if (process.env.NODE_ENV === 'production') {
+//   mongoose
+//     .connect(process.env.MONGODB_URI || URI, {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//       useCreateIndex: true,
+//     })
+//     .catch(error => console.log(error))
+// }
 
 mongoose
-  .connect(process.env.MONGODB_URI || URI, {
+  .connect(process.env.MONGODB_URI || MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -37,29 +29,15 @@ mongoose.connection.on('error', err => {
 })
 
 mongoose.connection.on('connected', () => {
-  console.log('Mongoose connection is running')
+  console.log('🐢 Mongoose connection is running')
 })
 
 mongoose.connection.on('disconnected', () => {
   console.log('Mongoose connection is disconnected')
 })
 
-// Connect to GraphQL
-// const schema = new GraphQLSchema({
-//   query: RootQuery,
-// })
+// listen to Apollo server on localhost
 
-// app.use('/griefNapkin', graphqlHTTP({ schema, graphiql: true }))
-
-// // Listen on Port
-// app.listen(PORT, () => {
-//   console.log(`GraphQL data served on port ${PORT}.`)
-// })
-
-const graphQLServer = server
-
-graphQLServer.listen({ port: process.env.PORT || 3001 }).then(({ url }) => {
+server.listen({ port: process.env.PORT || 3001 }).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}graphql`)
 })
-
-// module.exports = app
