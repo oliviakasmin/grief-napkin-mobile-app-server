@@ -9,10 +9,10 @@ const server = new ApolloServer({
     apiKey: 'service:grief-napkin-mobile-app-hsj03v:4pbIxhb-oTdXQM5G-E5mGA',
   },
   introspection: true,
-  playground: {
-    endpoint: 'https://grief-napkin-mobile.herokuapp.com/',
-  },
-  introspection: true,
+  // comment this in when deploying
+  // playground: {
+  //   endpoint: 'https://grief-napkin-mobile.herokuapp.com/',
+  // },
 })
 
 module.exports = { server }

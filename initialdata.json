@@ -1,0 +1,14 @@
+{
+    "dummy1" : {
+        "password": "ng",
+        "username": "nng",
+        "firstname": "Natalie",
+        "lastname": "ng"
+    },
+    "dummy2" : {
+        "username": "olivia2",
+        "password": "123456",
+        "firstname": "olilili",
+        "lastname": "k"
+    },
+}
